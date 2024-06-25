@@ -14,7 +14,7 @@ export default function Transaction() {
           style={{
             backgroundColor: "#f0f6f5",
             padding: 5,
-            width: 75,
+            width: 60,
             borderRadius: 10,
             justifyContent: "center",
             alignItems: "center",
@@ -25,6 +25,7 @@ export default function Transaction() {
             style={{ width: 40, height: 40, borderRadius: 50 }}
           />
         </View>
+
         <View>
           <Text style={{ fontSize: 20 }}>Upwork</Text>
           <Text style={{ fontSize: 16, color: "gray" }}>Today</Text>
