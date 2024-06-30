@@ -8,6 +8,12 @@ import bcrypt from "bcrypt";
  * @param {object} res - Express response object.
  */
 
+
+
+export const loginUserGet = async (req, res) => {
+  res.render("login");
+};
+
 const loginUser = async (req, res) => {
   await connectDB();
   const { userId, password } = req.body;
@@ -21,14 +27,6 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    // 7500 registration
-    // 47500 total
-
-    //  ML, data science, analyst, bussiness analyst
-
-    // 3 months training
-    // then placement (may be)
 
     // Verify password
     const checkPassword = await bcrypt.compare(password, user.password);
