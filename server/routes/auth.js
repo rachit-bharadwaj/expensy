@@ -5,6 +5,8 @@ const router = express.Router();
 
 // POST login
 router.post("/login", loginUser);
+
+// GET login
 router.get("/login", loginUserGet);
 
 // POST register

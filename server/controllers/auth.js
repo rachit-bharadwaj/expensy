@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 
 
 export const loginUserGet = async (req, res) => {
-  res.render("login");
+  return res.status(200).json({ message: "Login Page" });
 };
 
 const loginUser = async (req, res) => {
