@@ -1,8 +1,5 @@
-import {
-  updateUser,
-  getUser,
-  deleteUser,
-} from "../database/services/users/index.js";
+import connectDB from "../database/connection/mongoose.js";
+import User from "../database/models/User.schema.js";
 
 /**
  * Controller function to handle user update.
@@ -10,11 +7,18 @@ import {
  * @param {object} res - Express response object.
  */
 const updateUserController = async (req, res) => {
-  const { phoneNo, ...updatedData } = req.body;
+  await connectDB();
+  const { email, ...updateData } = req.body;
 
   try {
-    // Update user data
-    const updatedUser = await updateUser(phoneNo, updatedData);
+    // Find the user by email and update their data
+    const updatedUser = await User.findOneAndUpdate({ email }, updateData, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     res
       .status(200)
@@ -31,19 +35,20 @@ const updateUserController = async (req, res) => {
  * @param {object} res - Express response object.
  */
 const getUserController = async (req, res) => {
-  const { phoneNo } = req.body; // Extract phone number from request body
+  await connectDB();
+  const { email } = req.body;
 
   try {
-    // Get user data
-    const user = await getUser(phoneNo);
+    // Find the user by email
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({ message: "User retrieved successfully", user });
+    res.status(200).json({ user });
   } catch (error) {
-    console.error("Error getting user:", error);
+    console.error("Error retrieving user:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -54,11 +59,16 @@ const getUserController = async (req, res) => {
  * @param {object} res - Express response object.
  */
 const deleteUserController = async (req, res) => {
-  const { phoneNo } = req.body; // Extract phone number from request body
+  await connectDB();
+  const { email } = req.body;
 
   try {
-    // Delete user data
-    await deleteUser(phoneNo);
+    // Find the user by email and delete them
+    const deletedUser = await User.findOneAndDelete({ email });
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {

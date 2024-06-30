@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 // routes
-import { authRoutes, userRoutes } from "./routes";
+import { authRoutes, userRoutes } from "./routes/index.js";
 
 dotenv.config();
 

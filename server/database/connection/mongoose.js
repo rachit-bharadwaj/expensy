@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const MONGO_URI = process.env.MONGO_URI;
 
 let cached = global.mongoose || { conn: null, promise: null };
 
 const connectDB = async () => {
   if (cached.conn) {
+    console.log("Using cached database connection");
     return cached.conn;
   }
 
@@ -20,6 +25,7 @@ const connectDB = async () => {
     });
 
   cached.conn = await cached.promise;
+  console.log("Database connection established");
   return cached.conn;
 };
 
